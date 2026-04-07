@@ -1,0 +1,33 @@
+# 🔥 Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+#  Env files (VERY IMPORTANT)
+.env
+*.env
+
+#  Google credentials (CRITICAL)
+serviceAccountKey.json
+credentials.json
+
+
+node_modules/
+dist/
+build/
+
+#  Logs
+*.log
+
+#  OS
+.DS_Store
+Thumbs.db
+
+#  IDE
+.vscode/
+.idea/
+
+#  Misc
+*.sqlite3

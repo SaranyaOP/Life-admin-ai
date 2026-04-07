@@ -1,0 +1,9 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f6fa;
+  margin: 0;
+}
+
+button {
+  cursor: pointer;
+}
