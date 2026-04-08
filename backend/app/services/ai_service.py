@@ -1,13 +1,22 @@
 from dotenv import load_dotenv
 import os
-from google import genai
+import google.genai as genai
 from datetime import datetime
 import json
 
 load_dotenv()
 
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 MODEL_NAME = "gemini-2.5-flash"
+
+
+# 🔥 Lazy init (IMPORTANT)
+def get_client():
+    api_key = os.getenv("GEMINI_API_KEY")
+
+    if not api_key:
+        raise ValueError("GEMINI_API_KEY is not set")
+
+    return genai.Client(api_key=api_key)
 
 
 def extract_tasks_from_text(user_input: str):
@@ -57,6 +66,8 @@ def extract_tasks_from_text(user_input: str):
     """
 
     try:
+        client = get_client()  # ✅ created only when needed
+
         response = client.models.generate_content(
             model=MODEL_NAME,
             contents=prompt

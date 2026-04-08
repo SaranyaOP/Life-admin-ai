@@ -1,8 +1,16 @@
-from google import genai
+import google.genai as genai
 import os
+from dotenv import load_dotenv
 from app.agents.task_agent import task_agent
 
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+load_dotenv()
+
+def get_client():
+    """Lazy initialization of Gemini client to avoid startup delays"""
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        raise ValueError("GEMINI_API_KEY is not set")
+    return genai.Client(api_key=api_key)
 
 def planning_agent(user_input: str):
     try:
@@ -14,6 +22,7 @@ def planning_agent(user_input: str):
         Return simple short task sentences.
         """
 
+        client = get_client()
         res = client.models.generate_content(
             model="gemini-2.5-flash",
             contents=prompt

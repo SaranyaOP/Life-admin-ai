@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://127.0.0.1:8000",
+  baseURL: "https://life-admin-backend-145379378917.asia-south1.run.app/",
 });
 
 export const previewTasks = (text) =>

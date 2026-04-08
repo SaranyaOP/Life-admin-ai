@@ -13,13 +13,16 @@ export default function AIInput({ setPreview }) {
       setLoading(true); 
 
       const res = await previewTasks(text);
+      if(res.data.error) {
+       toast.error(res.data.error || "Failed to generate tasks");
+      }
       setPreview(res.data.tasks || []);
     } catch (err) {
       console.error(err);
-      toast.error("Something went wrong");
+      toast.error("Something went wrong",err);
     } finally {
       setText(""); // optional: clear input after generation
-      setLoading(false); // 👈 STOP LOADING
+      setLoading(false); // 
     }
   };
 

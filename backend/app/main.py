@@ -19,3 +19,9 @@ app.include_router(ai.router)
 @app.get("/")
 def root():
     return {"message": "Life Admin AI Backend Running"}
+
+
+@app.get("/health")
+def health_check():
+    """Health check endpoint for Cloud Run"""
+    return {"status": "healthy"}

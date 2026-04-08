@@ -1,59 +1,44 @@
 from datetime import datetime, timedelta
 import random
 
-
 def distribute_tasks(tasks, final_date_str):
-    """
-    Distribute tasks between today and the final event date.
-    """
-
     try:
-        # Handle 'Z' timezone
         if final_date_str.endswith("Z"):
             final_date_str = final_date_str.replace("Z", "+00:00")
-
         final_date = datetime.fromisoformat(final_date_str)
-
-    except Exception as e:
-        print("Scheduler error:", e)
-        return tasks  # fallback
-
-    total_tasks = len(tasks)
-
-    if total_tasks <= 1:
+    except Exception:
         return tasks
 
+    total_tasks = len(tasks)
+    if total_tasks == 0:
+        return []
+
+    # Current time is our absolute start floor
     today = datetime.now()
-
-    # 🔥 Calculate actual available days
-    total_days = (final_date.date() - today.date()).days
-
-    # If event date is in past → fallback (don’t break system)
-    if total_days < 0:
-        total_days = 0
-
-    # 🔥 Adjust span based on real window
-    days_span = min(total_tasks, max(1, total_days + 1))
-
-    # 🔥 FIX: start from today (never go into past)
-    start_date = today
+    
+    # Calculate difference in seconds for more granular distribution
+    total_seconds = (final_date - today).total_seconds()
+    
+    # If the date is in the past, default to a 24-hour window from now
+    if total_seconds <= 0:
+        total_seconds = 86400 
 
     scheduled_tasks = []
 
     for i, task in enumerate(tasks):
-        # Better distribution across available days
-        day_offset = int(i * days_span / total_tasks)
+        # Evenly spread tasks across the available time window
+        # First task starts near now, last task ends near the event date
+        seconds_offset = (i * total_seconds) / max(1, total_tasks - 1)
+        task_date = today + timedelta(seconds=seconds_offset)
 
-        task_date = start_date + timedelta(days=day_offset)
+        # Apply realistic working hours (9 AM to 7 PM)
+        if task_date.hour < 9:
+            task_date = task_date.replace(hour=9, minute=random.choice([0, 15, 30]))
+        elif task_date.hour > 19:
+            # If offset lands late at night, move to next morning 9 AM
+            task_date = (task_date + timedelta(days=1)).replace(hour=9, minute=0)
 
-        # Random realistic time (8AM–8PM)
-        hour = random.randint(8, 20)
-        minute = random.choice([0, 15, 30, 45])
-
-        task_date = task_date.replace(hour=hour, minute=minute, second=0, microsecond=0)
-
-        task["due_date"] = task_date.isoformat()
-
+        task["due_date"] = task_date.strftime("%Y-%m-%dT%H:%M:%S")
         scheduled_tasks.append(task)
 
     return scheduled_tasks
