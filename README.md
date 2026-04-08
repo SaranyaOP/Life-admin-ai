@@ -1,6 +1,8 @@
 # Life Admin AI
 
 Life Admin AI is an AI-powered task manager designed to turn natural language plans into structured tasks. The app helps users organize daily activities and longer-term preparation work using AI-assisted parsing, preview, editing, and Firestore-backed storage.
+project link : - https://life-admin-frontend-145379378917.asia-south1.run.app/
+project demo video : - https://drive.google.com/file/d/19CBhtItf02wx48VGZAslTYHZZjcc3bjX/view
 
 ## What this app does
 
@@ -42,7 +44,7 @@ This project demonstrates how to combine AI task extraction with a task manageme
 
 - Deployment
   - Backend Dockerfile included
-  - Google Cloud Run deployment configuration is already used in this repository
+  - Google Cloud Run deployment 
 
 ## Architecture overview
 
