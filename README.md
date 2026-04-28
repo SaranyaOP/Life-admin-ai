@@ -4,6 +4,7 @@ Life Admin AI is an AI-powered task manager designed to turn natural language pl
 
 
 project link : - https://life-admin-frontend-145379378917.us-central1.run.app/
+
 project demo video : - https://drive.google.com/file/d/19CBhtItf02wx48VGZAslTYHZZjcc3bjX/view
 
 ## What this app does
